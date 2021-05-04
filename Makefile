@@ -88,6 +88,10 @@ CONFIG_ICMP_VOQ = n
 CONFIG_IP_R_MONITOR = n #arp VOQ and high rate
 # user priority mapping rule : tos, dscp
 CONFIG_RTW_UP_MAPPING_RULE = tos
+# enable VHT rate on 2.4G channel or not
+CONFIG_RTW_VHT_2G4 = y
+# necessary for WPA3 support
+CONFIG_GTK_OL = y
 
 ########################## Android ###########################
 # CONFIG_RTW_ANDROID - 0: no Android, 4/5/6/7/8/9/10 : Android version
@@ -1258,6 +1262,18 @@ endif
 
 ifeq ($(CONFIG_MP_VHT_HW_TX_MODE), y)
 EXTRA_CFLAGS += -DCONFIG_MP_VHT_HW_TX_MODE
+
+ifeq ($(CONFIG_RTW_VHT_2G4), y)
+EXTRA_CFLAGS += -DRTW_VHT_2G4=1
+else
+EXTRA_CFLAGS += -DRTW_VHT_2G4=0
+endif
+
+# necessary for WPA3 support
+ifeq ($(CONFIG_GTK_OL), y)
+EXTRA_CFLAGS += -DCONFIG_GTK_OL
+endif
+
 ifeq ($(CONFIG_PLATFORM_I386_PC), y)
 ## For I386 X86 ToolChain use Hardware FLOATING
 EXTRA_CFLAGS += -mhard-float
